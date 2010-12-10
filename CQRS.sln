@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.Web", "src\CQRS.Web\CQRS.Web.csproj", "{8071A217-1682-4AA3-ADCC-2048324E146A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS.Core", "src\CQRS.Core\CQRS.Core.csproj", "{504ABF34-E26C-4B56-BC26-1C8796236FF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8071A217-1682-4AA3-ADCC-2048324E146A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8071A217-1682-4AA3-ADCC-2048324E146A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8071A217-1682-4AA3-ADCC-2048324E146A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8071A217-1682-4AA3-ADCC-2048324E146A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{504ABF34-E26C-4B56-BC26-1C8796236FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504ABF34-E26C-4B56-BC26-1C8796236FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504ABF34-E26C-4B56-BC26-1C8796236FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{504ABF34-E26C-4B56-BC26-1C8796236FF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
