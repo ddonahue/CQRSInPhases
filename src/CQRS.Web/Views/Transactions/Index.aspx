@@ -31,9 +31,12 @@
         </tr>
     </table>
 
-
+    <% if (!Model.Account.Locked) { %>
     <p>
-        <%= Html.ActionLink("Add transaction", "Add", new { id = Model.Account.BankAccountId }) %>
+        <%=Html.ActionLink("Add transaction", "Add", new {id = Model.Account.BankAccountId})%>
     </p>
+    <% } else {%>
+        <span class="error">ACCOUNT LOCKED</span>
+    <% } %>
 
 </asp:Content>

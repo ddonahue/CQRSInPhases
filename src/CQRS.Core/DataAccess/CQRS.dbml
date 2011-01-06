@@ -1,19 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="CQRS" Class="CQRSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Table Name="dbo.BankAccounts" Member="BankAccounts">
-    <Type Name="BankAccount">
+  <Table Name="dbo.BankAccounts" Member="BankAccountEntities">
+    <Type Name="BankAccountEntity">
       <Column Name="BankAccountId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="AccountNumber" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="BankAccount_Transaction" Member="Transactions" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="Transaction" />
+      <Column Name="Locked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="BankAccount_Transaction" Member="TransactionEntities" Storage="_Transactions" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="TransactionEntity" />
     </Type>
   </Table>
-  <Table Name="dbo.Transactions" Member="Transactions">
-    <Type Name="Transaction">
+  <Table Name="dbo.Transactions" Member="TransactionEntities">
+    <Type Name="TransactionEntity">
       <Column Name="TransactionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="BankAccountId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="TransactionDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Amount" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="BankAccount_Transaction" Member="BankAccount" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="BankAccount" IsForeignKey="true" />
+      <Association Name="BankAccount_Transaction" Member="BankAccountEntity" Storage="_BankAccount" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="BankAccountEntity" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

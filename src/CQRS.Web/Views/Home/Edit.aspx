@@ -15,6 +15,9 @@
         <%= Html.LabelFor(x => x.AccountNumber) %>
         <%= Html.TextBoxFor(x => x.AccountNumber) %>
 
+        <%= Html.LabelFor(x => x.EmailAddress) %>
+        <%= Html.TextBoxFor(x => x.EmailAddress)%>
+
         <input type="submit" id="submitBtn" name="submitBtn" value="Edit Account Name" />
 <% } %>
 

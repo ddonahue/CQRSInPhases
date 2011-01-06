@@ -2,20 +2,20 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="CQRS">
   <DataContextMoniker Name="/CQRSDataContext" />
   <nestedChildShapes>
-    <classShape Id="3a10ec57-0341-4e9e-a5b9-8f8c3595db78" absoluteBounds="0.75, 1.25, 2, 1.1939925130208338">
-      <DataClassMoniker Name="/CQRSDataContext/BankAccount" />
+    <classShape Id="3a10ec57-0341-4e9e-a5b9-8f8c3595db78" absoluteBounds="0.75, 1.25, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/CQRSDataContext/BankAccountEntity" />
       <nestedChildShapes>
-        <elementListCompartment Id="26c4ddff-8ed2-47c7-83bb-690426a91b12" absoluteBounds="0.765, 1.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="26c4ddff-8ed2-47c7-83bb-690426a91b12" absoluteBounds="0.765, 1.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="229f63bd-aea0-4634-a13e-6e78feaf3dd3" absoluteBounds="3.5, 0.875, 2, 1.7708968098958333">
-      <DataClassMoniker Name="/CQRSDataContext/Transaction" />
+      <DataClassMoniker Name="/CQRSDataContext/TransactionEntity" />
       <nestedChildShapes>
         <elementListCompartment Id="b12e21bc-8c86-4b1c-b974-51c87e17e50a" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.75 : 1.84699625651042); (3.5 : 1.84699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/CQRSDataContext/BankAccount/BankAccount_Transaction" />
+    <associationConnector edgePoints="[(2.75 : 1.94794840494792); (3.5 : 1.94794840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/CQRSDataContext/BankAccountEntity/BankAccount_Transaction" />
       <nodes>
         <classShapeMoniker Id="3a10ec57-0341-4e9e-a5b9-8f8c3595db78" />
         <classShapeMoniker Id="229f63bd-aea0-4634-a13e-6e78feaf3dd3" />

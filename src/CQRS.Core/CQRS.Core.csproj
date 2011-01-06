@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandBus.cs" />
+    <Compile Include="Commands\CommandHandlers.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\PostTransactionCommand.cs" />
+    <Compile Include="DataAccess\BankAccountRepository.cs" />
     <Compile Include="DataAccess\CQRS.cs">
       <DependentUpon>CQRS.dbml</DependentUpon>
     </Compile>
@@ -50,6 +55,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CQRS.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\IRepository.cs" />
+    <Compile Include="DataAccess\TransactionRepository.cs" />
+    <Compile Include="Domain\BankAccount.cs" />
+    <Compile Include="Domain\Exceptions\AccountLockedException.cs" />
+    <Compile Include="Events\AccountLockedEvent.cs" />
+    <Compile Include="Events\AccountOverdrawnEvent.cs" />
+    <Compile Include="Events\DomainEvents.cs" />
+    <Compile Include="Events\EventHandlers.cs" />
+    <Compile Include="Events\IDomainEvent.cs" />
+    <Compile Include="Domain\Transaction.cs" />
+    <Compile Include="Events\TransationPostedEvent.cs" />
+    <Compile Include="Infrastructure\EmailSender.cs" />
+    <Compile Include="Infrastructure\IEmailSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +86,7 @@
       <DependentUpon>CQRS.dbml</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

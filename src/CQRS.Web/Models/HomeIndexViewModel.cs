@@ -5,6 +5,6 @@ namespace CQRS.Web.Models
 {
     public class HomeIndexViewModel
     {
-        public IEnumerable<BankAccount> BankAccounts { get; set; }
+        public IEnumerable<BankAccountEntity> BankAccounts { get; set; }
     }
 }

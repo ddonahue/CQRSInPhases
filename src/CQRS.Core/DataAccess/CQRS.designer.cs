@@ -30,12 +30,12 @@ namespace CQRS.Core.DataAccess
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertBankAccount(BankAccount instance);
-    partial void UpdateBankAccount(BankAccount instance);
-    partial void DeleteBankAccount(BankAccount instance);
-    partial void InsertTransaction(Transaction instance);
-    partial void UpdateTransaction(Transaction instance);
-    partial void DeleteTransaction(Transaction instance);
+    partial void InsertBankAccountEntity(BankAccountEntity instance);
+    partial void UpdateBankAccountEntity(BankAccountEntity instance);
+    partial void DeleteBankAccountEntity(BankAccountEntity instance);
+    partial void InsertTransactionEntity(TransactionEntity instance);
+    partial void UpdateTransactionEntity(TransactionEntity instance);
+    partial void DeleteTransactionEntity(TransactionEntity instance);
     #endregion
 		
 		public CQRSDataContext(string connection) : 
@@ -62,25 +62,25 @@ namespace CQRS.Core.DataAccess
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<BankAccount> BankAccounts
+		public System.Data.Linq.Table<BankAccountEntity> BankAccountEntities
 		{
 			get
 			{
-				return this.GetTable<BankAccount>();
+				return this.GetTable<BankAccountEntity>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Transaction> Transactions
+		public System.Data.Linq.Table<TransactionEntity> TransactionEntities
 		{
 			get
 			{
-				return this.GetTable<Transaction>();
+				return this.GetTable<TransactionEntity>();
 			}
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BankAccounts")]
-	public partial class BankAccount : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class BankAccountEntity : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -89,7 +89,11 @@ namespace CQRS.Core.DataAccess
 		
 		private string _AccountNumber;
 		
-		private EntitySet<Transaction> _Transactions;
+		private bool _Locked;
+		
+		private string _EmailAddress;
+		
+		private EntitySet<TransactionEntity> _Transactions;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -99,11 +103,15 @@ namespace CQRS.Core.DataAccess
     partial void OnBankAccountIdChanged();
     partial void OnAccountNumberChanging(string value);
     partial void OnAccountNumberChanged();
+    partial void OnLockedChanging(bool value);
+    partial void OnLockedChanged();
+    partial void OnEmailAddressChanging(string value);
+    partial void OnEmailAddressChanged();
     #endregion
 		
-		public BankAccount()
+		public BankAccountEntity()
 		{
-			this._Transactions = new EntitySet<Transaction>(new Action<Transaction>(this.attach_Transactions), new Action<Transaction>(this.detach_Transactions));
+			this._Transactions = new EntitySet<TransactionEntity>(new Action<TransactionEntity>(this.attach_Transactions), new Action<TransactionEntity>(this.detach_Transactions));
 			OnCreated();
 		}
 		
@@ -147,8 +155,48 @@ namespace CQRS.Core.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Locked", DbType="Bit NOT NULL")]
+		public bool Locked
+		{
+			get
+			{
+				return this._Locked;
+			}
+			set
+			{
+				if ((this._Locked != value))
+				{
+					this.OnLockedChanging(value);
+					this.SendPropertyChanging();
+					this._Locked = value;
+					this.SendPropertyChanged("Locked");
+					this.OnLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailAddress", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string EmailAddress
+		{
+			get
+			{
+				return this._EmailAddress;
+			}
+			set
+			{
+				if ((this._EmailAddress != value))
+				{
+					this.OnEmailAddressChanging(value);
+					this.SendPropertyChanging();
+					this._EmailAddress = value;
+					this.SendPropertyChanged("EmailAddress");
+					this.OnEmailAddressChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="BankAccount_Transaction", Storage="_Transactions", ThisKey="BankAccountId", OtherKey="BankAccountId")]
-		public EntitySet<Transaction> Transactions
+		public EntitySet<TransactionEntity> TransactionEntities
 		{
 			get
 			{
@@ -180,21 +228,21 @@ namespace CQRS.Core.DataAccess
 			}
 		}
 		
-		private void attach_Transactions(Transaction entity)
+		private void attach_Transactions(TransactionEntity entity)
 		{
 			this.SendPropertyChanging();
-			entity.BankAccount = this;
+			entity.BankAccountEntity = this;
 		}
 		
-		private void detach_Transactions(Transaction entity)
+		private void detach_Transactions(TransactionEntity entity)
 		{
 			this.SendPropertyChanging();
-			entity.BankAccount = null;
+			entity.BankAccountEntity = null;
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Transactions")]
-	public partial class Transaction : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class TransactionEntity : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -209,7 +257,7 @@ namespace CQRS.Core.DataAccess
 		
 		private string _Description;
 		
-		private EntityRef<BankAccount> _BankAccount;
+		private EntityRef<BankAccountEntity> _BankAccount;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -227,9 +275,9 @@ namespace CQRS.Core.DataAccess
     partial void OnDescriptionChanged();
     #endregion
 		
-		public Transaction()
+		public TransactionEntity()
 		{
-			this._BankAccount = default(EntityRef<BankAccount>);
+			this._BankAccount = default(EntityRef<BankAccountEntity>);
 			OnCreated();
 		}
 		
@@ -338,7 +386,7 @@ namespace CQRS.Core.DataAccess
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="BankAccount_Transaction", Storage="_BankAccount", ThisKey="BankAccountId", OtherKey="BankAccountId", IsForeignKey=true)]
-		public BankAccount BankAccount
+		public BankAccountEntity BankAccountEntity
 		{
 			get
 			{
@@ -346,7 +394,7 @@ namespace CQRS.Core.DataAccess
 			}
 			set
 			{
-				BankAccount previousValue = this._BankAccount.Entity;
+				BankAccountEntity previousValue = this._BankAccount.Entity;
 				if (((previousValue != value) 
 							|| (this._BankAccount.HasLoadedOrAssignedValue == false)))
 				{
@@ -354,19 +402,19 @@ namespace CQRS.Core.DataAccess
 					if ((previousValue != null))
 					{
 						this._BankAccount.Entity = null;
-						previousValue.Transactions.Remove(this);
+						previousValue.TransactionEntities.Remove(this);
 					}
 					this._BankAccount.Entity = value;
 					if ((value != null))
 					{
-						value.Transactions.Add(this);
+						value.TransactionEntities.Add(this);
 						this._BankAccountId = value.BankAccountId;
 					}
 					else
 					{
 						this._BankAccountId = default(System.Guid);
 					}
-					this.SendPropertyChanged("BankAccount");
+					this.SendPropertyChanged("BankAccountEntity");
 				}
 			}
 		}

@@ -6,5 +6,6 @@ namespace CQRS.Web.Models
     {
         public Guid BankAccountId { get; set; }
         public string AccountNumber { get; set; }
+        public string EmailAddress { get; set; }
     }
 }
