@@ -2,10 +2,10 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="CQRS">
   <DataContextMoniker Name="/CQRSDataContext" />
   <nestedChildShapes>
-    <classShape Id="3a10ec57-0341-4e9e-a5b9-8f8c3595db78" absoluteBounds="0.75, 1.25, 2, 1.5785953776041666">
+    <classShape Id="3a10ec57-0341-4e9e-a5b9-8f8c3595db78" absoluteBounds="0.75, 1.25, 2, 1.7708968098958331">
       <DataClassMoniker Name="/CQRSDataContext/BankAccountEntity" />
       <nestedChildShapes>
-        <elementListCompartment Id="26c4ddff-8ed2-47c7-83bb-690426a91b12" absoluteBounds="0.765, 1.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="26c4ddff-8ed2-47c7-83bb-690426a91b12" absoluteBounds="0.765, 1.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="229f63bd-aea0-4634-a13e-6e78feaf3dd3" absoluteBounds="3.5, 0.875, 2, 1.7708968098958333">
@@ -15,10 +15,29 @@
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(2.75 : 1.94794840494792); (3.5 : 1.94794840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/CQRSDataContext/BankAccountEntity/BankAccount_Transaction" />
+      <AssociationMoniker Name="/CQRSDataContext/BankAccountEntity/BankAccountEntity_TransactionEntity" />
       <nodes>
         <classShapeMoniker Id="3a10ec57-0341-4e9e-a5b9-8f8c3595db78" />
         <classShapeMoniker Id="229f63bd-aea0-4634-a13e-6e78feaf3dd3" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="cc6e6e0c-319b-4803-a2ef-fbe22b78f5e7" absoluteBounds="7.75, 3.375, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/CQRSDataContext/AggregateEntity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="898eb80e-d3db-4ce0-85dc-06182f900a9e" absoluteBounds="7.765, 3.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d194a643-6757-451e-b82d-780f01ec061d" absoluteBounds="7.75, 1.125, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/CQRSDataContext/EventEntity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c23dcdde-f356-4698-8c73-973ca89386ac" absoluteBounds="7.7650000000000006, 1.585, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.75 : 3.375); (8.75 : 2.89589680989583)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/CQRSDataContext/AggregateEntity/AggregateEntity_EventEntity" />
+      <nodes>
+        <classShapeMoniker Id="cc6e6e0c-319b-4803-a2ef-fbe22b78f5e7" />
+        <classShapeMoniker Id="d194a643-6757-451e-b82d-780f01ec061d" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

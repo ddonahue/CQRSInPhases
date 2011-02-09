@@ -10,13 +10,13 @@
     <% using (Html.BeginForm())  { %>
 
         <%= Html.LabelFor(x => x.AccountNumber) %>
-        <%= Html.TextBoxFor(x => x.AccountNumber) %>
+        <%= Html.TextBoxFor(x => x.AccountNumber) %><br />
 
         <%= Html.LabelFor(x => x.EmailAddress) %>
-        <%= Html.TextBoxFor(x => x.EmailAddress)%>
+        <%= Html.TextBoxFor(x => x.EmailAddress)%><br />
 
         <input type="submit" id="submitBtn" name="submitBtn" value="Add New Account" />
-    <% } %>>
+    <% } %>
     
     
 </asp:Content>

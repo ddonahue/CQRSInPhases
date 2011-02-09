@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="CQRS" Class="CQRSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=MEGATRON\FLOYDTHEBARBER;Initial Catalog=CQRS;Integrated Security=True" SettingsObjectName="CQRS.Emailer.Properties.Settings" SettingsPropertyName="CQRSConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.BankAccounts" Member="BankAccounts">
+    <Type Name="BankAccount">
+      <Column Name="BankAccountId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AccountNumber" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Balance" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="Locked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

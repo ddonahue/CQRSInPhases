@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="CQRS">
+  <DataContextMoniker Name="/CQRSDataContext" />
+  <nestedChildShapes>
+    <classShape Id="15e12aa8-c9ad-4ba2-ae9d-8d5b749e393c" absoluteBounds="0.75, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/CQRSDataContext/BankAccount" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ddc25205-567b-4d61-a771-5934f863e3f3" absoluteBounds="0.765, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="84753c99-802f-49ac-8d01-286780d64f94" absoluteBounds="3.5, 0.875, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/CQRSDataContext/Transaction" />
+      <nestedChildShapes>
+        <elementListCompartment Id="af210e23-d798-40cd-8adc-9c37cafd4a64" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 1.76044840494792); (3.5 : 1.76044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/CQRSDataContext/BankAccount/BankAccount_Transaction" />
+      <nodes>
+        <classShapeMoniker Id="15e12aa8-c9ad-4ba2-ae9d-8d5b749e393c" />
+        <classShapeMoniker Id="84753c99-802f-49ac-8d01-286780d64f94" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

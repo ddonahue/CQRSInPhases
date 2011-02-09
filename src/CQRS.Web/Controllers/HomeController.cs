@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using CQRS.Core.DataAccess;
+using CQRS.Web.DataAccess;
 using CQRS.Web.Models;
+using Messages.Commands;
 
 namespace CQRS.Web.Controllers
 {
@@ -12,10 +13,10 @@ namespace CQRS.Web.Controllers
     {
         public ActionResult Index()
         {
-            List<BankAccountEntity> bankAccounts;
+            List<BankAccount> bankAccounts;
             using (var dataContext = new CQRSDataContext())
             {
-                bankAccounts = dataContext.BankAccountEntities.ToList();
+                bankAccounts = dataContext.BankAccounts.ToList();
             }
 
             var model = new HomeIndexViewModel {BankAccounts = bankAccounts};
@@ -31,19 +32,8 @@ namespace CQRS.Web.Controllers
         [HttpPost]
         public ActionResult Add(AccountViewModel model)
         {
-            var account = new BankAccountEntity
-                              {
-                                  BankAccountId = Guid.NewGuid(),
-                                  AccountNumber = model.AccountNumber,
-                                  EmailAddress =  model.EmailAddress
-                              };
-
-            using (var dataContext = new CQRSDataContext())
-            {
-                dataContext.BankAccountEntities.InsertOnSubmit(account);
-                dataContext.SubmitChanges();
-            }
-
+            var command = new CreateAccountCommand(Guid.NewGuid(), model.AccountNumber, model.EmailAddress);
+            MvcApplication.Bus.Send(command);
             return RedirectToAction("Index");
         }
 
@@ -52,7 +42,7 @@ namespace CQRS.Web.Controllers
             var model = new AccountViewModel();
             using (var dataContext = new CQRSDataContext())
             {
-                var account = dataContext.BankAccountEntities.Single(x => x.BankAccountId == id);
+                var account = dataContext.BankAccounts.Single(x => x.BankAccountId == id);
 
                 model.BankAccountId = account.BankAccountId;
                 model.AccountNumber = account.AccountNumber;
@@ -67,7 +57,7 @@ namespace CQRS.Web.Controllers
         {
             using (var dataContext = new CQRSDataContext())
             {
-                var account = dataContext.BankAccountEntities.Single(x => x.BankAccountId == model.BankAccountId);
+                var account = dataContext.BankAccounts.Single(x => x.BankAccountId == model.BankAccountId);
                 account.AccountNumber = model.AccountNumber;
                 account.EmailAddress = model.EmailAddress;
                 dataContext.SubmitChanges();

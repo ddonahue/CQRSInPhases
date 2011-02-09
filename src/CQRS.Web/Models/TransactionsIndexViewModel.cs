@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using CQRS.Core.DataAccess;
+using CQRS.Web.DataAccess;
 
 namespace CQRS.Web.Models
 {
     public class TransactionsIndexViewModel
     {
-        public BankAccountEntity Account { get; set; }
-        public IEnumerable<TransactionEntity> Transactions { get; set; }
+        public BankAccount Account { get; set; }
+        public IEnumerable<Transaction> Transactions { get; set; }
     }
 }

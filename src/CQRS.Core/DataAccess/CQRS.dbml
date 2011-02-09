@@ -5,7 +5,8 @@
       <Column Name="AccountNumber" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Locked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="EmailAddress" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Association Name="BankAccount_Transaction" Member="TransactionEntities" Storage="_Transactions" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="TransactionEntity" />
+      <Column Name="Balance" Type="System.Decimal" DbType="Money NULL" CanBeNull="false" />
+      <Association Name="BankAccountEntity_TransactionEntity" Member="TransactionEntities" Storage="_Transactions" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="TransactionEntity" />
     </Type>
   </Table>
   <Table Name="dbo.Transactions" Member="TransactionEntities">
@@ -15,7 +16,25 @@
       <Column Name="TransactionDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Amount" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="BankAccount_Transaction" Member="BankAccountEntity" Storage="_BankAccount" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="BankAccountEntity" IsForeignKey="true" />
+      <Association Name="BankAccountEntity_TransactionEntity" Member="BankAccountEntity" Storage="_BankAccount" ThisKey="BankAccountId" OtherKey="BankAccountId" Type="BankAccountEntity" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Aggregates" Member="AggregateEntities">
+    <Type Name="AggregateEntity">
+      <Column Name="AggregateId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DataType" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Version" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="AggregateEntity_EventEntity" Member="EventEntities" Storage="_Events" ThisKey="AggregateId" OtherKey="AggregateId" Type="EventEntity" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Events" Member="EventEntities">
+    <Type Name="EventEntity">
+      <Column Name="AggregateId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="EventData" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Version" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EventName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="EventId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Association Name="AggregateEntity_EventEntity" Member="AggregateEntity" Storage="_Aggregate" ThisKey="AggregateId" OtherKey="AggregateId" Type="AggregateEntity" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

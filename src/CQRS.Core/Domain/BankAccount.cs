@@ -1,43 +1,66 @@
 using System;
 using CQRS.Core.Domain.Exceptions;
-using CQRS.Core.Events;
+using Messages.Events;
 
 namespace CQRS.Core.Domain
 {
-    public class BankAccount
+    public class BankAccount : AggregateRoot
     {
-        public Guid BankAccountId { get; private set; }
-        public bool IsLocked { get; private set; }
-        public decimal Balance { get; private set; }
+        private bool isLocked;
+        private Guid id;
+        private decimal balance;
 
-        public BankAccount(Guid bankAccountId, decimal balance, bool isLocked)
+        public override Guid Id
         {
-            BankAccountId = bankAccountId;
-            Balance = balance;
-            IsLocked = isLocked;
+            get { return id; }
+        }
+
+        public BankAccount()
+        {
+        }
+
+        public BankAccount(Guid id, string accountNumber, string emailAddress)
+        {
+            ApplyChange(new AccountCreatedEvent { BankAccountId = id, AccountNumber = accountNumber, EmailAddress = emailAddress, Version = 0 });
         }
 
         public void PostNewTransaction(Transaction transaction)
         {
-            if (IsLocked) throw new AccountLockedException(this.BankAccountId);
+            if (isLocked) throw new AccountLockedException(id);
 
-            var remainingBalance = Balance + transaction.Amount;
+            var remainingBalance = balance + transaction.Amount;
             if (remainingBalance <= -100)
             {
-                DomainEvents.Raise(new AccountLockedEvent {BankAccountId = this.BankAccountId});
+                ApplyChange(new AccountLockedEvent {BankAccountId = id, Balance = remainingBalance, TransactionAmount = transaction.Amount});
             }
             else if (remainingBalance < 0)
             {
-                DomainEvents.Raise(new AccountOverdrawnEvent { BankAccountId = this.BankAccountId }); 
+                ApplyChange(new AccountOverdrawnEvent { BankAccountId = id, Balance = remainingBalance, TransactionAmount = transaction.Amount }); 
             }
 
-            DomainEvents.Raise(new TransationPostedEvent
+            ApplyChange(new TransationPostedEvent
                                    {
                                        Amount = transaction.Amount,
-                                       BankAccountId = this.BankAccountId,
+                                       BankAccountId = id,
                                        Description =  transaction.Description,
                                        TransactionDate = transaction.TransactionDate
                                    });
+        }
+
+        private void Apply(AccountCreatedEvent e)
+        {
+            id = e.BankAccountId;
+            isLocked = false;
+        }
+
+        private void Apply(AccountLockedEvent e)
+        {
+            isLocked = true;
+        }
+
+        private void Apply(TransationPostedEvent e)
+        {
+            balance += e.Amount;
         }
     }
 }

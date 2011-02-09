@@ -1,31 +1,46 @@
-using System.Linq;
 using CQRS.Core.DataAccess;
+using CQRS.Core.Domain;
+using Messages.Commands;
+using NServiceBus;
 
 namespace CQRS.Core.Commands
 {
-    public class CommandHandlers
+    public class CommandHandlers : IHandleMessages<CreateAccountCommand>, IHandleMessages<PostTransactionCommand>
     {
-        private readonly IRepository<BankAccountEntity> repository;
+        // TODO:  Need to figure out how to build up an object using NServiceBus with constructor injection for the repository
+        // instead of newing it up in each handler method.
 
-        public CommandHandlers()
+        public IBus Bus { get; set; }
+
+        public void Handle(CreateAccountCommand command)
         {
-            repository = new BankAccountRepository();
+            var repository = new Repository<BankAccount>();
+            var bankAccount = new BankAccount(command.BankAccountId, command.AccountNumber, command.EmailAddress);
+            repository.Save(bankAccount);
+
+            PublishEvents(bankAccount);
         }
 
         public void Handle(PostTransactionCommand command)
         {
-            var bankAccountEntity = repository.LoadById(command.BankAccountId);
-            var bankAccount = MapEntityToDomainObject(bankAccountEntity);
+            var repository = new Repository<BankAccount>();
+            var bankAccount = repository.LoadById(command.BankAccountId);
 
-            var transaction = new Domain.Transaction(command.Amount, command.Description, command.TransactionDate);
+            var transaction = new Transaction(command.Amount, command.Description, command.TransactionDate);
             bankAccount.PostNewTransaction(transaction);
+
+            repository.Save(bankAccount);
+
+            PublishEvents(bankAccount);
         }
 
-        private static Domain.BankAccount MapEntityToDomainObject(BankAccountEntity bankAccountEntity)
+        private void PublishEvents(AggregateRoot aggregateRoot)
         {
-            var balance = bankAccountEntity.TransactionEntities.Sum(x => x.Amount);
-            var bankAccount = new Domain.BankAccount(bankAccountEntity.BankAccountId, balance, bankAccountEntity.Locked);
-            return bankAccount;
+            foreach (var @event in aggregateRoot.GetUncommittedChanges())
+            {
+                Bus.Publish(@event);
+            }
+            aggregateRoot.MarkChangesAsCommitted();
         }
     }
 }
