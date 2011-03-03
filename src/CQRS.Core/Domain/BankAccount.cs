@@ -28,23 +28,25 @@ namespace CQRS.Core.Domain
         {
             if (isLocked) throw new AccountLockedException(id);
 
-            var remainingBalance = balance + transaction.Amount;
-            if (remainingBalance <= -100)
+            ApplyChange(new TransationPostedEvent
             {
+                Amount = transaction.Amount,
+                BankAccountId = id,
+                Description = transaction.Description,
+                TransactionDate = transaction.TransactionDate
+            });
+
+            var remainingBalance = balance + transaction.Amount;
+            if (remainingBalance <= -100) // if account is overdrawn by over 100 dollars, lock it
+            {
+                isLocked = true;
                 ApplyChange(new AccountLockedEvent {BankAccountId = id, Balance = remainingBalance, TransactionAmount = transaction.Amount});
             }
-            else if (remainingBalance < 0)
+            
+            if (remainingBalance < 0)
             {
                 ApplyChange(new AccountOverdrawnEvent { BankAccountId = id, Balance = remainingBalance, TransactionAmount = transaction.Amount }); 
             }
-
-            ApplyChange(new TransationPostedEvent
-                                   {
-                                       Amount = transaction.Amount,
-                                       BankAccountId = id,
-                                       Description =  transaction.Description,
-                                       TransactionDate = transaction.TransactionDate
-                                   });
         }
 
         private void Apply(AccountCreatedEvent e)
