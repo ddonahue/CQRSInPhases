@@ -36,16 +36,15 @@ namespace CQRS.Core.Domain
                 TransactionDate = transaction.TransactionDate
             });
 
-            var remainingBalance = balance + transaction.Amount;
-            if (remainingBalance <= -100) // if account is overdrawn by over 100 dollars, lock it
+            if (balance <= -100) // if account is overdrawn by over 100 dollars, lock it
             {
                 isLocked = true;
-                ApplyChange(new AccountLockedEvent {BankAccountId = id, Balance = remainingBalance, TransactionAmount = transaction.Amount});
+                ApplyChange(new AccountLockedEvent { BankAccountId = id, Balance = balance, TransactionAmount = transaction.Amount });
             }
-            
-            if (remainingBalance < 0)
+
+            if (balance < 0)
             {
-                ApplyChange(new AccountOverdrawnEvent { BankAccountId = id, Balance = remainingBalance, TransactionAmount = transaction.Amount }); 
+                ApplyChange(new AccountOverdrawnEvent { BankAccountId = id, Balance = balance, TransactionAmount = transaction.Amount }); 
             }
         }
 
