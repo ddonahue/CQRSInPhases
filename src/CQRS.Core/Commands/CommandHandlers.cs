@@ -1,7 +1,6 @@
 using CQRS.Core.DataAccess;
 using CQRS.Core.Domain;
 using CQRS.Core.Domain.Exceptions;
-using Messages;
 using Messages.Commands;
 using NServiceBus;
 

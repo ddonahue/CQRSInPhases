@@ -38,7 +38,7 @@ namespace CQRS.Core.Domain
 
         private void ApplyChange(IDomainEvent @event, bool isNew)
         {
-            this.AsDynamic().Apply(@event);
+            this.InvokeMemberOnType("Apply", new object[] { @event });
             if (isNew) changes.Add(@event);
         }
     }
