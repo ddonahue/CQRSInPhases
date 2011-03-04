@@ -41,7 +41,6 @@ namespace CQRS.Core.Domain
                 isLocked = true;
                 ApplyChange(new AccountLockedEvent { BankAccountId = id, Balance = balance, TransactionAmount = transaction.Amount });
             }
-
             if (balance < 0)
             {
                 ApplyChange(new AccountOverdrawnEvent { BankAccountId = id, Balance = balance, TransactionAmount = transaction.Amount }); 
